@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../../../firebase';
 import { useRouter } from 'next/router';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-const Signin = () => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -12,8 +12,8 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        await signInWithEmailAndPassword(auth, email, password);
-        router.push('/tasks'); // Redirect to tasks page after login
+        await createUserWithEmailAndPassword(auth, email, password);
+        router.push('/tasks'); // Redirect to tasks page after signup
     } catch (err) {
       setError(err.message);
     }
@@ -21,7 +21,7 @@ const Signin = () => {
 
   return (
     <div>
-      <h2>Sign In</h2>
+      <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <input 
           type="email" 
@@ -35,11 +35,14 @@ const Signin = () => {
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
         />
-        <button type="submit">Sign In</button>
+        <button type="submit">Sign Up</button>
       </form>
       {error && <p>{error}</p>}
     </div>
   );
 };
 
-export default Signin;
+export default Signup;
+
+
+
